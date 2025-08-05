@@ -470,4 +470,42 @@ window.addEventListener("resize", loadReviews);
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
   <audio id="helpSound" src="https://assets.mixkit.co/sfx/preview/mixkit-sad-game-over-trombone-471.mp3"></audio>
+
+
+
+<script>
+
+ <!-- fire base connection -->
+
+
+
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+ // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDxtk7rTwEBPT1W73scgPAMOsLrFXRaXVU",
+    authDomain: "mood-mate-7d071.firebaseapp.com",
+    projectId: "mood-mate-7d071",
+    storageBucket: "mood-mate-7d071.firebasestorage.app",
+    messagingSenderId: "1043535041128",
+    appId: "1:1043535041128:web:19f578531ba6dce4fa21dd",
+    measurementId: "G-WSW5BQZGYR"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+
+
+</script>
+
+ 
 </body>
