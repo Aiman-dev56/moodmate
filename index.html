@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoodyMate - Mental Wellness Companion </title>
+  <link rel="stylesheet" href="style/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 mb-0">
+    <!-- Logo and Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="img/logo-removebg-preview.png" alt="Logo" height="40" class="me-2">
+      <span class="fw-bold fs-4">BootMate</span>
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Center and Right Items -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Centered nav links -->
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">Services</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+            More
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Therapy</a></li>
+            <li><a class="dropdown-item" href="./html/moodjournal.html">Journal</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Right aligned user button -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="btn btn-outline-primary dropdown-toggle px-3 py-1 d-flex align-items-center gap-2" href="#"
+            id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+            style="border-radius: 30px; font-weight: 600;">
+            <!-- User Icon -->
+            <span id="userIcon"
+              class="bg-white text-dark rounded-circle d-inline-flex justify-content-center align-items-center"
+              style="width: 28px; height: 28px; font-size: 14px; font-weight: bold;">
+              <i class="bi bi-person-circle"></i>
+            </span>
+            <!-- Username/Login Text -->
+            <span id="navbarUsername">Login</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="navbarUser">
+            <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- ✅ Removed extra </nav> -->
+
+  <!-- Sidebar (if used for mobile) -->
+  <div id="sidebar">
+    <button class="close-btn" onclick="closeSidebar()">×</button>
+    <a href="index.html">Home</a>
+    <a href="#">Services</a>
+    <a href="#">Therapy</a>
+    <a href="./html/moodjournal.html">Journal</a>
+    <a href="./html/register.html#loginSectionId">Login</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="margin-top: 0;">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <div class="row align-items-center">
+        <!-- Left Text -->
+        <div class="col-md-6">
+          <h1 class="display-4 fw-bold" data-aos="zoom-in" data-aos-duration="2000">Welcome to BootMate</h1>
+          <p class="lead fs-4 fw-semibold">Your personal mental wellness companion.</p>
+          <a href="#mentalHealth" class="btn btn-outline-light mt-3">Explore Now<span style="margin-left: 10px;"><i
+                class="bi bi-arrow-down-circle"></i></span></a>
+        </div>
+
+        <!-- Right Image -->
+        <div class="col-md-6 text-center">
+          <img src="img/doctor-removebg-preview.png" alt="Hero" class="img-fluid hero-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- Third Section: Quiz Start -->
+  <section class="container-fluid sec-thir" id="mentalHealth" style="padding-top: 80px;" >
+    <div class="text-center container trird-sec py-5 " style="background-color: #7d8c9b;" data-aos="fade-up"
+      data-aos-duration="1000">
+      <div class="container text-white">
+        <h2 class="fw-bold mb-3 text-capitalize">🧠 Examine Your Mental Well-being</h2>
+        <p class="lead fs-4 fw-semibold">
+          Take a short self-assessment to understand your current mental state.<br>
+          This quick quiz helps you reflect and guides you to feel better with personalized suggestions.
+        </p>
+        <button class="btn btn-outline-light mt-3" data-bs-toggle="modal" data-bs-target="#quizModal">Start
+          Quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ MODAL -->
+  <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content p-4">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Mental Health Self-Check <span id="questionCount">(1/5)</span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="questionContainer">
+            <h5 id="questionText"></h5>
+            <div id="optionsContainer" class="mt-3"></div>
+          </div>
+          <div class="text-end mt-4">
+            <button class="btn btn-secondary me-2" id="prevBtn" onclick="prevQuestion()" disabled>Back</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT MODAL -->
+  <div class="modal fade" id="resultModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4 text-center">
+        <h4 class="mb-3" id="resultTitle"></h4>
+        <p id="resultText"></p>
+        <div id="helpOptions" class="d-none mt-3">
+          <a href="#journal" class="btn btn-outline-primary mb-2">📓 Mood Journal</a>
+          <a href="#chatbot" class="btn btn-outline-success mb-2">🤖 AI Chatbot</a>
+          <a href="#exercises" class="btn btn-outline-info mb-2">🧘 Breathing Exercises</a>
+        </div>
+        <button class="btn btn-dark mt-3" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!--forth-sec-->
+  <section class="container justify-content-center">
+    <h1 class="text-center fw-bold "> Let's Get Start..!</h1>
+    <p class="text-center fw-semibold mt-4 fs-4">Let's start your journey for healthy and good Mental Health with us.The
+      given steps will help to improve yourself.</p>
+
+
+    <div class="container py-5">
+      <div class="row justify-content-center g-5">
+
+        <!-- Box 1 -->
+        <div class="col-md-5" data-aos="fade-up" data-aos-delay="100">
+          <div class="p-4 bg-light text-dark text-center rounded shadow-lg">
+            <div class="fs-1 mb-2">🤖</div>
+            <h5 class="fw-bold">AI Chatbot</h5>
+            <p>Talk with our mental health bot to feel heard and supported.</p>
+
+          </div>
+        </div>
+
+        <!-- Box 2 -->
+        <div class="col-md-5" data-aos="fade-up" data-aos-delay="200">
+          <div class="p-4 bg-light text-dark text-center rounded shadow-lg" style="min-height: 212px;">
+            <div class="fs-1 mb-2">📓</div>
+            <a href="./html/moodjournal.html" style="text-decoration: none;">
+              <h5 class="fw-bold text-decoration-none" style="color: black;">Mood Journal</h5>
+            </a>
+
+            <p>Track your feelings and reflect through journaling.</p>
+          </div>
+        </div>
+
+        <!-- Box 3 -->
+        <div class="col-md-6" data-aos="zoom-in-up" data-aos-delay="300">
+          <div class="p-4 bg-light text-dark text-center rounded shadow-lg">
+            <div class="fs-1 mb-2">💡</div>
+            <a href="./html/tips.html" style="text-decoration: none;">
+              <h5 class="fw-bold text-decoration-none" style="color: black;">Mental Tips</h5>
+            </a>
+
+            <p>Explore daily tips to strengthen your mental resilience.</p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- testimonals -->
+
+  <section class="container-fluid py-5"  >
+<h1 class="text-center fw-bold " style="font-family: 'Times New Roman', Times, serif;">Testimonals</h1>
+
+<div class="container testimonial-section">
+  <div class="row">
+    <!-- Left Content -->
+    <div class="col-md-4 d-flex flex-column justify-content-center">
+      <div class="quote-icon mb-3">❝</div>
+      <h4>Connect with other members</h4>
+      <p class="text-light">Learn from others, share your experience, and grow together with valuable insights from our amazing community.</p>
+      
+      <button id="addReviewBtn" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#reviewModal">
+    Add Review
+  </button>
+    </div>
+
+    <!-- Testimonials Slider -->
+    <div class="col-md-8">
+      <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" id="testimonialSlides"></div>
+
+        <div class="d-flex justify-content-center mt-3">
+          <div class="carousel-indicators position-static" id="carouselIndicators"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="reviewForm" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Your Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control mb-3" placeholder="Write your review..." required></textarea>
+        <input type="number" class="form-control" min="1" max="5" placeholder="Rating (1-5)" required />
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="reviewForm" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add / Edit Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control mb-3" placeholder="Write your review..." required></textarea>
+        <input type="number" class="form-control" min="1" max="5" placeholder="Rating (1-5)" required />
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  </section>
+
+
+
+
+
+<script>
+const slideContainer = document.getElementById("testimonialSlides");
+const loggedInUser = localStorage.getItem("loggedInUser");
+console.log("logged in as:", loggedInUser);
+
+// Load and display all reviews in carousel
+function loadReviews() {
+  const reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+  const slideContainer = document.getElementById("testimonialSlides");
+  const indicatorsContainer = document.getElementById("carouselIndicators");
+
+  slideContainer.innerHTML = "";
+  indicatorsContainer.innerHTML = "";
+  const screenWidth = window.innerWidth;
+  const groupSize = screenWidth >= 786 ? 3 : 1;
+
+  for (let i = 0; i < reviews.length; i += groupSize) {
+    const group = reviews.slice(i, i + groupSize);
+    const slide = document.createElement("div");
+    slide.className = "carousel-item" + (i === 0 ? " active" : "");
+
+    const row = document.createElement("div");
+    row.className = "row";
+
+    group.forEach((review, indexInGroup) => {
+      const col = document.createElement("div");
+      col.className = "col-md-4 mb-3";
+
+      const card = document.createElement("div");
+      card.className = "card h-100 shadow-sm";
+
+      const overallIndex = i + indexInGroup;
+
+      card.innerHTML = `
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="d-flex align-items-center">
+              <img src="https://i.pravatar.cc/40?u=${review.name}" class="rounded-circle me-2" width="40" height="40" alt="avatar">
+              <strong>${review.name}</strong>
+            </div>
+            ${review.name === loggedInUser
+              ? `<button class="btn btn-sm btn-danger delete-review" data-index="${overallIndex}">Delete</button>`
+              : ""}
+          </div>
+          <p class="card-text">${review.text}</p>
+          <div class="text-warning">
+            ${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}
+          </div>
+        </div>
+      `;
+
+      col.appendChild(card);
+      row.appendChild(col);
+    });
+
+    slide.appendChild(row);
+    slideContainer.appendChild(slide);
+
+    const indicator = document.createElement("button");
+    indicator.setAttribute("type", "button");
+    indicator.setAttribute("data-bs-target", "#testimonialCarousel");
+    indicator.setAttribute("data-bs-slide-to", i / groupSize);
+    indicator.className = i === 0 ? "active" : "";
+    indicatorsContainer.appendChild(indicator);
+  }
+
+  // 🔁 Bind delete buttons after DOM is updated
+  document.querySelectorAll(".delete-review").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const index = parseInt(this.getAttribute("data-index"));
+      const reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+
+      if (confirm("Are you sure you want to delete your review?")) {
+        reviews.splice(index, 1); // Remove review
+        localStorage.setItem("reviews", JSON.stringify(reviews));
+        loadReviews(); // Reload updated carousel
+      }
+    });
+  });
+}
+
+window.addEventListener("resize", loadReviews);
+window.addEventListener("DOMContentLoaded", () => {
+  loadReviews();
+  checkLoginStatus();
+});
+
+// Show/hide Add Review button
+function checkLoginStatus() {
+  const username = localStorage.getItem("loggedInUser");
+  const addBtn = document.getElementById("addReviewBtn");
+  if (username) {
+    addBtn.style.display = "inline-block";
+  } else {
+    addBtn.style.display = "none";
+  }
+}
+
+// Add new review
+document.getElementById("reviewForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const reviewText = document.querySelector("#reviewForm textarea").value.trim();
+  const rating = parseInt(document.querySelector("#reviewForm input[type=number]").value);
+  const loggedInUser = localStorage.getItem("loggedInUser");
+
+  if (!loggedInUser) {
+    alert("Please log in to submit a review.");
+    return;
+  }
+
+  if (!reviewText || !rating || rating < 1 || rating > 5) {
+    alert("Please provide a valid review and rating (1-5).");
+    return;
+  }
+
+  const reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+
+  // Optional: only one review per user — remove old one
+  const existingIndex = reviews.findIndex((r) => r.name === loggedInUser);
+  if (existingIndex !== -1) {
+    reviews.splice(existingIndex, 1);
+  }
+
+  reviews.push({
+    name: loggedInUser,
+    text: reviewText,
+    rating: rating,
+  });
+
+  localStorage.setItem("reviews", JSON.stringify(reviews));
+  bootstrap.Modal.getInstance(document.getElementById("reviewModal")).hide();
+  document.getElementById("reviewForm").reset();
+  loadReviews();
+});
+
+window.addEventListener("resize", loadReviews);
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <!-- AOS JS -->
+  <script>
+    AOS.init({
+      once: false,
+      duration: 1200
+    });
+  </script>
+
+
+
+
+  <script src="js/auth.js"></script>
+  <script>
+    initializeAuth({
+      loginRedirect: "html/register.html#loginSectionId"
+    });
+  </script>
+
+
+  <script src="js/app.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+  <audio id="helpSound" src="https://assets.mixkit.co/sfx/preview/mixkit-sad-game-over-trombone-471.mp3"></audio>
+</body>

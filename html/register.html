@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodyMate - Mental Wellness Companion </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.637), rgba(0, 0, 0, 0.632)),
+                url('../img/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* Makes the image static */
+            color: white;
+            /* Optional, if your background is dark */
+            font-family: sans-serif;
+        }
+
+        /* Sidebar styles */
+        #sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #343a40;
+            overflow-x: hidden;
+            transition: 0.4s;
+            padding-top: 60px;
+            z-index: 1050;
+        }
+
+        #sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        #sidebar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            background: none;
+            border: none;
+        }
+
+        #sidebar a:hover {
+            background-color: #495057;
+        }
+
+        #login-form {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(82, 76, 98, 0.632);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: auto;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        @media (max-width: 768px) {
+            #login-form {
+                display: flex;
+                flex-wrap: wrap;
+                min-height: 60vh;
+                margin-top: 180px;
+            }
+        }
+
+        .checkmark-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .background {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #28a745;
+            position: absolute;
+        }
+
+        .checkmark {
+            position: absolute;
+            left: 26px;
+            top: 42px;
+            width: 25px;
+            height: 50px;
+            border: solid white;
+            border-width: 0 6px 6px 0;
+            transform: rotate(45deg);
+            animation: stroke 0.5s ease forwards;
+        }
+
+        @keyframes stroke {
+            0% {
+                height: 0;
+                width: 0;
+                opacity: 0;
+            }
+
+            50% {
+                height: 50px;
+                width: 25px;
+                opacity: 1;
+            }
+
+            100% {
+                height: 25px;
+                width: 50px;
+                opacity: 1;
+            }
+        }
+
+        .success-glow {
+            color: #1d516c;
+            text-shadow: 0 0 10px rgba(40, 97, 167, 0.7);
+            animation: glowPulse 1.5s infinite;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 10px rgba(45, 87, 109, 0.7);
+            }
+
+            50% {
+                text-shadow: 0 0 20px rgba(45, 87, 109, 1);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+        <!-- Logo and Brand -->
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="../img/logo-removebg-preview.png" alt="Logo" height="40" class="me-2">
+            <span class="fw-bold fs-4">BootMate</span>
+        </a>
+
+        <!-- Center Nav Links (Collapse for small screens) -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Services</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                        More
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Therapy</a></li>
+                        <li><a class="dropdown-item" href="#">Journal</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Login Button -->
+        <div class="d-none d-lg-block ms-auto">
+            <a href="#loginSectionId" class="btn btn-outline-light">Login</a>
+        </div>
+
+        <!-- Hamburger -->
+        <button class="navbar-toggler ms-3" type="button" onclick="openSidebar()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+    <!-- Right Sidebar -->
+    <div id="sidebar">
+        <button class="close-btn" onclick="closeSidebar()">×</button>
+        <a href="#">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Therapy</a>
+        <a href="#">Journal</a>
+        <a href="#">Login</a>
+    </div>
+
+
+
+
+    <!--Register page-->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content p-0 border-0 overflow-hidden" style="border-radius: 15px;">
+                <div class="row g-0">
+
+                    <!-- Left: Image with overlay text -->
+                    <div class="col-md-6 position-relative text-white d-flex flex-column justify-content-center align-items-center p-4"
+                        style="min-height: 100%;">
+                        <img src="../img/background.jpg" alt="Register"
+                            class="w-100 h-100 position-absolute top-0 start-0 object-fit-cover" style="z-index: 1;">
+                        <div class="position-absolute top-0 start-0 w-100 h-100"
+                            style="background: rgba(44, 40, 61, 0.715); z-index: 2;"></div>
+
+                        <div class="position-relative text-center z-3">
+                            <h2 class="fw-bold">Join MoodMate</h2>
+                            <p class="lead">Track your wellness, journal your thoughts, and grow.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Right: Form -->
+                    <div class="col-md-6 p-4">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <h5 class="modal-title fw-bold mb-3" id="registerModalLabel">Register</h5>
+                        <form id="registerForm">
+                            <label class="fw-semibold mb-2" style="color: black;">Name:</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i> <!-- Bootstrap Icon -->
+                                </span>
+                                <label class="fw-semibold mb-3"></label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter Your Name"
+                                    required>
+                            </div>
+                            <label class="fw-semibold mb-2" style="color: black;">Email:</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i> <!-- Bootstrap Icon -->
+                                </span>
+                                <label class="fw-semibold mb-3"></label>
+                                <input type="text" class="form-control" id="email" placeholder="Enter Your Email"
+                                    required>
+                            </div>
+                            <label class="fw-semibold mb-2" style="color: black;">Country:</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="bi bi-geo-alt"></i><!-- Bootstrap Icon -->
+                                </span>
+                                <label class="fw-semibold mb-3"></label>
+                                <input type="text" class="form-control" id="country" placeholder="Enter Your Country"
+                                    required>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="fw-semibold mb-2" style="color: black;">Password:</label>
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="password"
+                                        autocomplete="new-password" placeholder="Enter Your Password" required>
+                                    <span class="input-group-text">
+                                        <i class="bi bi-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+                                    </span>
+                                </div>
+                                <small id="passwordRequirements" class="text-danger d-none">
+                                    Password must be at least 8 characters, contain a letter, a number, and a special
+                                    character.
+                                </small>
+                            </div>
+
+
+
+
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                <label class="form-check-label" for="termsCheck" style="color: black;">
+                                    I agree to the <a href="#"
+                                        style="text-decoration: none; color: black; font-weight: bold;">Terms &
+                                        Conditions</a>
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-outline-success w-100">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+
+                <!-- Animated tick icon -->
+                <div class="text-success fs-1 mb-3">
+                    <i class="bi bi-check-circle-fill animate__animated animate__bounceIn"></i>
+                </div>
+
+                <!-- This is where the name gets inserted -->
+                <h4 class="fw-bold" id="successMessage">Registration Successful!</h4>
+
+                <!-- Continue button -->
+                <button class="btn btn-outline-success mt-3" data-bs-dismiss="modal" id="continueBtn">
+                    Continue to Login...
+                </button>
+
+                <!-- Countdown text -->
+                <p class="text-muted mt-2" style="font-size: 0.9rem;">
+                    You’ll be redirected in <span id="countdown">5</span> seconds.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--login page-->
+    <section id="loginSectionId">
+        <div class="container mt-3 mb-5">
+            <form id="login-form">
+                <div>
+                    <h1 class="fw-bold text-center mt-4 mb-5" style="color: #0a1f2b;"> Login </h1>
+                </div>
+
+
+                <form id="loginForm">
+
+
+                    <div class="mb-3">
+                        <label>Email:</label>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-3">
+                        <label>Password:</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="loginPassword"
+                                placeholder="Enter your password">
+                            <span class="input-group-text"><i class="bi bi-eye-slash" id="toggleLoginPassword"
+                                    style="cursor:pointer;"></i></span>
+                        </div>
+                    </div>
+                    <button id="loginBtn" class="btn btn-success w-100">Login</button>
+
+                    <!-- Simulated Social Login -->
+                    <hr>
+                    <button class="btn btn-outline-dark w-100 mb-2" id="googleLogin"><i
+                            class="bi bi-google me-2"></i>Continue with Google</button>
+                    <button class="btn btn-outline-dark w-100" id="appleLogin"><i class="bi bi-apple me-2"></i>Continue
+                        with Apple</button>
+
+
+
+
+                    <div class="text-center mt-4">Don't Have An Account! <span><a href="#" data-bs-toggle="modal"
+                                data-bs-target="#registerModal"
+                                style="text-decoration: none; color: wheat; font-weight: bolder;">Register.</a></span>
+                    </div>
+
+        </div>
+        </form>
+        </div>
+
+
+    </section>
+    
+
+
+
+
+
+    <!--js for registration section-->
+
+    <script>
+        const passwordInput = document.getElementById("password");
+        const passwordRequirements = document.getElementById("passwordRequirements");
+        const togglePassword = document.getElementById("togglePassword");
+
+        // Toggle password visibility
+        togglePassword.addEventListener("click", () => {
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+            passwordInput.setAttribute("type", type);
+            togglePassword.classList.toggle("bi-eye");
+            togglePassword.classList.toggle("bi-eye-slash");
+        });
+
+        // Strong password check
+        function isStrongPassword(password) {
+            const hasMinLength = /.{8,}/;
+            const hasLetter = /[A-Za-z]/;
+            const hasNumber = /[0-9]/;
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/;
+            return (
+                hasMinLength.test(password) &&
+                hasLetter.test(password) &&
+                hasNumber.test(password) &&
+                hasSpecial.test(password)
+            );
+        }
+
+        // Show/hide password rule warning while typing
+        passwordInput.addEventListener("input", () => {
+            if (!isStrongPassword(passwordInput.value)) {
+                passwordRequirements.classList.remove("d-none");
+            } else {
+                passwordRequirements.classList.add("d-none");
+            }
+        });
+
+        // Register form submission
+        document.getElementById("registerForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const country = document.getElementById("country").value.trim();
+            const password = passwordInput.value;
+            const agreed = document.getElementById("termsCheck").checked;
+
+            if (!name || !email || !country || !password) {
+                alert("Please enter all fields.");
+                return;
+            }
+
+            if (!agreed) {
+                alert("Please agree to the Terms & Conditions.");
+                return;
+            }
+
+            if (!isStrongPassword(password)) {
+                passwordRequirements.classList.remove("d-none");
+                alert("Password must contain at least 8 characters, one letter, one number, and one special character.");
+                return;
+            }
+
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem("users") || "{}");
+
+            // Ensure unique email
+            if (users[email]) {
+                alert("Email already registered. Please use a different email.");
+                return;
+            }
+
+            // Save user
+            users[email] = {
+                name: name,
+                country: country,
+                password: password,
+                data: `Welcome ${name}`
+            };
+
+            localStorage.setItem("users", JSON.stringify(users));
+
+            // Hide registration modal
+            const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+            if (registerModal) registerModal.hide();
+
+            // Show success modal
+            const successModalElement = document.getElementById("successModal");
+            const successModal = new bootstrap.Modal(successModalElement);
+            const successMessageEl = document.getElementById("successMessage");
+            const countdownEl = document.getElementById("countdown");
+
+            successMessageEl.textContent = `Welcome, ${name}! Registration Successful 🎉`;
+            successMessageEl.style.color = "#3a375c";
+
+            successModal.show();
+
+            // Auto redirect
+            let seconds = 5;
+            countdownEl.textContent = seconds;
+            const countdown = setInterval(() => {
+                seconds--;
+                countdownEl.textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(countdown);
+                    successModal.hide();
+                    window.location.hash = "#loginSectionId";
+                }
+            }, 1000);
+
+            // Manual continue
+            document.getElementById("continueBtn").onclick = () => {
+                clearInterval(countdown);
+                successModal.hide();
+                const loginSection = document.getElementById("loginSectionId");
+                if (loginSection) {
+                    loginSection.scrollIntoView({ behavior: "smooth" });
+                }
+            };
+        });
+
+        document.getElementById("login-form").onsubmit = function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("login-email").value.trim();
+            const password = document.getElementById("login-password");
+
+            const users = JSON.parse(localStorage.getItem("users") || "{}");
+
+            let matchedUser = null;
+            let matchedUsername = "";
+
+            // Check if the email and password match any user
+            for (let username in users) {
+                const user = users[username];
+                if (user.email === email && user.password === password) {
+                    matchedUser = user;
+                    matchedUsername = username;
+                    break;
+                }
+            }
+
+            if (!matchedUser) {
+                alert("Invalid email or password.");
+                return;
+            }
+
+            // Store the logged-in user's name
+            localStorage.setItem("loggedInUser", matchedUsername);
+
+            // Redirect to home/index page
+            window.location.href = "../index.html"; // Make sure index.html exists in your project
+        };
+
+
+        //js for login page
+
+
+        if (!localStorage.getItem('loggedInUser')) {
+    localStorage.setItem('loggedInUser', 'Aiman Iqbal');
+  }
+
+  
+        document.getElementById("toggleLoginPassword").addEventListener("click", function () {
+            const pwd = document.getElementById("loginPassword");
+            pwd.type = pwd.type === "password" ? "text" : "password";
+            this.classList.toggle("bi-eye");
+            this.classList.toggle("bi-eye-slash");
+        });
+
+        document.getElementById("loginBtn").addEventListener("click", () => {
+            const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+            const password = document.getElementById("loginPassword").value;
+
+            const users = JSON.parse(localStorage.getItem("users") || "{}");
+
+            if (!users[email] || users[email].password !== password) {
+                alert("Invalid email or password.");
+                return;
+            }
+
+            localStorage.setItem("currentUser", email);
+            window.location.href = "../index.html";
+        });
+
+        // Simulated Google/Apple Login
+        document.getElementById("googleLogin").addEventListener("click", () => {
+            const email = "googleuser@example.com";
+            const name = "Google User";
+            simulateSocialLogin(email, name);
+        });
+
+        document.getElementById("appleLogin").addEventListener("click", () => {
+            const email = "appleuser@example.com";
+            const name = "Apple User";
+            simulateSocialLogin(email, name);
+        });
+
+        function simulateSocialLogin(email, name) {
+            let users = JSON.parse(localStorage.getItem("users") || "{}");
+
+            if (!users[email]) {
+                users[email] = { name, email, country: "Not Specified", password: "" };
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+
+            localStorage.setItem("currentUser", email);
+            window.location.href = "../index.html";
+        }
+
+
+
+
+
+
+    </script>
+
+
+    </script>
+    <script src="../js/app.js"></script>
+</body>
