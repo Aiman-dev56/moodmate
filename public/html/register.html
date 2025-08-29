@@ -12,6 +12,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+
+
 
 
     <style>
@@ -155,6 +159,29 @@
                 text-shadow: 0 0 20px rgba(45, 87, 109, 1);
             }
         }
+
+        /* Custom fade animation */
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+
+            10% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            90% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+        }
     </style>
 
 </head>
@@ -242,42 +269,37 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <h5 class="modal-title fw-bold mb-3" id="registerModalLabel">Register</h5>
+
                         <form id="registerForm">
-                            <label class="fw-semibold mb-2" style="color: black;">Name:</label>
+                            <!-- Name -->
+                            <label class="fw-semibold mb-2">Name:</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text">
-                                    <i class="bi bi-person"></i> <!-- Bootstrap Icon -->
-                                </span>
-                                <label class="fw-semibold mb-3"></label>
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
                                 <input type="text" class="form-control" id="name" placeholder="Enter Your Name"
                                     required>
                             </div>
-                            <label class="fw-semibold mb-2" style="color: black;">Email:</label>
+
+                            <!-- Email -->
+                            <label class="fw-semibold mb-2">Email:</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text">
-                                    <i class="bi bi-envelope"></i> <!-- Bootstrap Icon -->
-                                </span>
-                                <label class="fw-semibold mb-3"></label>
-                                <input type="text" class="form-control" id="email" placeholder="Enter Your Email"
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" placeholder="Enter Your Email"
                                     required>
                             </div>
-                            <label class="fw-semibold mb-2" style="color: black;">Country:</label>
+
+                            <!-- Country -->
+                            <label class="fw-semibold mb-2">Country:</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text">
-                                    <i class="bi bi-geo-alt"></i><!-- Bootstrap Icon -->
-                                </span>
-                                <label class="fw-semibold mb-3"></label>
+                                <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
                                 <input type="text" class="form-control" id="country" placeholder="Enter Your Country"
                                     required>
                             </div>
 
-
+                            <!-- Password -->
                             <div class="mb-3">
-                                <label class="fw-semibold mb-2" style="color: black;">Password:</label>
+                                <label class="fw-semibold mb-2">Password:</label>
                                 <div class="input-group mb-1">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-lock"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
                                     <input type="password" class="form-control" id="password"
                                         autocomplete="new-password" placeholder="Enter Your Password" required>
                                     <span class="input-group-text">
@@ -290,9 +312,7 @@
                                 </small>
                             </div>
 
-
-
-
+                            <!-- Terms -->
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" id="termsCheck" required>
                                 <label class="form-check-label" for="termsCheck" style="color: black;">
@@ -301,8 +321,12 @@
                                         Conditions</a>
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-outline-success w-100">Register</button>
+
+                            <!-- Submit -->
+                            <button type="submit" class="btn btn-success w-100">Register</button>
                         </form>
+
+
                     </div>
                 </div>
             </div>
@@ -321,22 +345,23 @@
                     <i class="bi bi-check-circle-fill animate__animated animate__bounceIn"></i>
                 </div>
 
-                <!-- This is where the name gets inserted -->
-                <h4 class="fw-bold" id="successMessage">Registration Successful!</h4>
+                <!-- Success name message -->
+                <h4 class="fw-bold" id="successMessage" style="color: black;">Registration Successful!</h4>
 
+                <!-- Countdown text (inline under message) -->
+                <p id="countdownPopup" class="text-muted d-none mt-2"
+                    style=" margin-top: 50px; color: aliceblue; font-size: large;">
+                    🔁 Redirecting in <span id="popupCountdown">5</span> seconds...
+                </p>
                 <!-- Continue button -->
                 <button class="btn btn-outline-success mt-3" data-bs-dismiss="modal" id="continueBtn">
                     Continue to Login...
                 </button>
 
-                <!-- Countdown text -->
-                <p class="text-muted mt-2" style="font-size: 0.9rem;">
-                    You’ll be redirected in <span id="countdown">5</span> seconds.
-                </p>
-
             </div>
         </div>
     </div>
+
 
 
 
@@ -398,149 +423,158 @@
     </section>
 
 
-    <script src="../js/app.js"></script>
+
 
 
 
     <!-- js section -->
 
 
-   <script type="module">
-  import {
-    initializeApp
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    fetchSignInMethodsForEmail
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import {
-    getFirestore,
-    setDoc,
-    doc,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <script type="module">
 
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyDxtk7rTwEBPT1W73scgPAMOsLrFXRaXVU",
-    authDomain: "mood-mate-7d071.firebaseapp.com",
-    projectId: "mood-mate-7d071",
-    storageBucket: "mood-mate-7d071.appspot.com",
-    messagingSenderId: "1043535041128",
-    appId: "1:1043535041128:web:19f578531ba6dce4fa21dd",
-    measurementId: "G-WSW5BQZGYR"
-  };
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+        const supabaseUrl = 'https://frdpycgqkyzxhddhgypx.supabase.co'
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZHB5Y2dxa3l6eGhkZGhneXB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzNzUxNjYsImV4cCI6MjA3MTk1MTE2Nn0.hSc68HZsA6-I-ubgX_BaI2DL-hsFpSak79YbmLKOwvA"
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        console.log("Supabase client ready:", supabase);
 
-  // DOM references
-  const registerForm = document.getElementById("registerForm");
-  const passwordInput = document.getElementById("password");
-  const passwordRequirements = document.getElementById("passwordRequirements");
-  const togglePassword = document.getElementById("togglePassword");
 
-  // Toggle password visibility
-  if (togglePassword) {
-    togglePassword.addEventListener("click", () => {
-      const type = passwordInput.type === "password" ? "text" : "password";
-      passwordInput.type = type;
-      togglePassword.classList.toggle("bi-eye");
-      togglePassword.classList.toggle("bi-eye-slash");
-    });
-  }
+        const form = document.getElementById('registerForm');
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const passwordRequirements = document.getElementById('passwordRequirements');
+        const continueBtn = document.getElementById("continueBtn");
 
-  // Password strength check
-  function isStrongPassword(password) {
-    const hasMinLength = /.{8,}/;
-    const hasLetter = /[A-Za-z]/;
-    const hasNumber = /[0-9]/;
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/;
-    return (
-      hasMinLength.test(password) &&
-      hasLetter.test(password) &&
-      hasNumber.test(password) &&
-      hasSpecial.test(password)
-    );
-  }
+        // Show/hide password
+        togglePassword.addEventListener('click', () => {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                togglePassword.classList.replace("bi-eye-slash", "bi-eye");
+            } else {
+                passwordInput.type = "password";
+                togglePassword.classList.replace("bi-eye", "bi-eye-slash");
+            }
+        });
 
-  // Show password requirements
-  passwordInput.addEventListener("input", () => {
-    if (!isStrongPassword(passwordInput.value)) {
-      passwordRequirements.classList.remove("d-none");
-    } else {
-      passwordRequirements.classList.add("d-none");
-    }
-  });
+        // Password validation
+        passwordInput.addEventListener('input', () => {
+            const val = passwordInput.value;
+            const strong = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            passwordRequirements.classList.toggle("d-none", strong.test(val));
+        });
 
-  // Register form submit
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+        // Handle form submit
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const country = document.getElementById("country").value.trim();
-    const password = passwordInput.value.trim();
-    const termsCheck = document.getElementById("termsCheck").checked;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const password = passwordInput.value;
+            const terms = document.getElementById('termsCheck').checked;
 
-    if (!termsCheck) {
-      alert("Please accept the Terms & Conditions to continue.");
-      return;
-    }
+            if (!terms) {
+                alert("You must agree to the Terms & Conditions.");
+                return;
+            }
 
-    if (!isStrongPassword(password)) {
-      alert("Password does not meet security requirements.");
-      return;
-    }
 
-    try {
-      const methods = await fetchSignInMethodsForEmail(auth, email);
-      if (methods.length > 0) {
-        alert("Email already registered. Please use a different email.");
-        return;
-      }
 
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+            // ✅ Check if email already exists
+            const { data: existingUser } = await supabase
+                .from("users")
+                .select("id")
+                .eq("email", email)
+                .maybeSingle();
 
-      await setDoc(doc(db, "users", user.uid), {
-        name,
-        email,
-        country,
-        createdAt: serverTimestamp()
-      });
+            if (existingUser) {
+                alert("❌ This email is already registered. Please login instead.");
+                return;
+            }
 
-      document.getElementById("successMessage").textContent =
-        `🎉 Congratulations, ${name}! Registration Successful!`;
+            // ✅ Insert new user into the 'users' table
+            const { data: newUser, error: insertError } = await supabase
+                .from("users")
+                .insert([{ name, email, country, password }]);
 
-      const successModal = new bootstrap.Modal(document.getElementById("successModal"));
-      successModal.show();
+            if (insertError) {
+                console.error("User save error:", insertError.message);
+                alert("❌ Error saving user: " + insertError.message);
+                return;
+            }
 
-      let countdown = 5;
-      const countdownElement = document.getElementById("countdown");
-      const interval = setInterval(() => {
-        countdown--;
-        countdownElement.textContent = countdown;
-        if (countdown === 0) {
-          clearInterval(interval);
-          successModal.hide();
-          window.location.hash = "#loginSectionId";
-        }
-      }, 1000);
 
-      document.getElementById("continueBtn").addEventListener("click", () => {
-        successModal.hide();
-        window.location.hash = "#loginSectionId";
-      });
 
-    } catch (error) {
-      console.error("Registration error:", error);
-      alert("Registration failed: " + error.message);
-    }
-  });
-</script>
+
+            // Update success message
+            document.getElementById("successMessage").textContent =
+                `🎉 Registration Successful, Welcome  ${name}!`;
+
+            // Close registration modal
+            const registerModalEl = document.getElementById("registerModal");
+            if (registerModalEl) {
+                const registerModal = bootstrap.Modal.getInstance(registerModalEl)
+                    || new bootstrap.Modal(registerModalEl);
+                registerModal.hide();
+
+                // Remove any leftover backdrop
+                document.querySelectorAll(".modal-backdrop").forEach(backdrop => backdrop.remove());
+
+                // Remove modal-open class from body to restore scrolling
+                document.body.classList.remove("modal-open");
+            }
+
+            // Show success modal
+            const successModalEl = document.getElementById("successModal");
+            const successModal = bootstrap.Modal.getOrCreateInstance(successModalEl);
+            successModal.show();
+
+            // Countdown
+            // ✅ Start countdown
+            let countdown = 5;
+            const countdownPopup = document.getElementById("countdownPopup");
+            const popupCountdown = document.getElementById("popupCountdown");
+
+            // Show the countdown text
+            countdownPopup.classList.remove("d-none");
+            popupCountdown.textContent = countdown;
+
+            // Run interval
+            const interval = setInterval(() => {
+                countdown--;
+                popupCountdown.textContent = countdown;
+
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    successModal.hide();
+                    // Scroll to login section after modal hides
+    setTimeout(() => {
+      document.querySelector("#loginSectionId").scrollIntoView({ behavior: "smooth" });
+      document.body.classList.remove("modal-open"); // just in case
+    }, 300);
+                }
+            }, 1000);
+
+
+
+            // ✅ Continue button (optional manual skip)
+            document.getElementById("continueBtn").onclick = () => {
+                clearInterval(interval);
+                successModal.hide();
+                setTimeout(() => {
+    document.querySelector("#loginSectionId").scrollIntoView({ behavior: "smooth" });
+    document.body.classList.remove("modal-open");
+  }, 300);
+            };
+
+
+            form.reset();
+
+        });
+
+    </script>
+
 
 
 
