@@ -375,36 +375,39 @@
 
 
                 <form id="loginForm">
+  <div class="mb-3">
+    <label>Email:</label>
+    <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email">
+  </div>
 
+  <div class="mb-3">
+    <label>Password:</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password">
+      <span class="input-group-text">
+        <i class="bi bi-eye-slash" id="toggleLoginPassword" style="cursor:pointer;"></i>
+      </span>
+    </div>
+  </div>
 
-                    <div class="mb-3">
-                        <label>Email:</label>
-                        <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email">
-                    </div>
-                    <div class="mb-3">
-                        <label>Password:</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="loginPassword"
-                                placeholder="Enter your password">
-                            <span class="input-group-text"><i class="bi bi-eye-slash" id="toggleLoginPassword"
-                                    style="cursor:pointer;"></i></span>
-                        </div>
-                    </div>
-                    <button id="loginBtn" class="btn btn-success w-100">Login</button>
-                    <p class="mt-4"><a href="javascript:void(0)" id="forgotPassword"
-                            style="text-decoration: none; color: #030b0f;">Forgot Password?</a></p>
+  <button id="loginBtn" class="btn btn-success w-100">Login</button>
 
+  <p class="mt-4">
+    <a href="javascript:void(0)" id="forgotPassword" style="text-decoration: none; color: #030b0f;">
+      Forgot Password?
+    </a>
+  </p>
 
-                    <!-- Simulated Social Login -->
-                    <hr>
-
-                    <div id="firebase-auth-buttons" class="text-center mt-3">
-                        <button class="btn btn-outline-dark w-100 mb-2" onclick="googleLogin()" id="googleLogin"><i
-                                class="bi bi-google me-2"></i>Continue with Google</button>
-                        <button class="btn btn-outline-dark w-100" onclick="appleLogin()" id="appleLogin"><i
-                                class="bi bi-apple me-2"></i>Continue
-                            with Apple</button>
-                    </div>
+  <!-- Social Login -->
+  <hr>
+  <div class="text-center mt-3">
+    <button type="button" class="btn btn-outline-dark w-100 mb-2" id="googleLogin">
+      <i class="bi bi-google me-2"></i>Continue with Google
+    </button>
+    <button type="button" class="btn btn-outline-dark w-100" id="appleLogin">
+      <i class="bi bi-apple me-2"></i>Continue with Apple
+    </button>
+  </div>
 
 
 
@@ -425,155 +428,10 @@
 
 
 
+    <script type="module" src="../js/register.js"></script>
 
 
-    <!-- js section -->
-
-
-    <script type="module">
-
-        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-        const supabaseUrl = 'https://frdpycgqkyzxhddhgypx.supabase.co'
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZHB5Y2dxa3l6eGhkZGhneXB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzNzUxNjYsImV4cCI6MjA3MTk1MTE2Nn0.hSc68HZsA6-I-ubgX_BaI2DL-hsFpSak79YbmLKOwvA"
-        const supabase = createClient(supabaseUrl, supabaseKey);
-        console.log("Supabase client ready:", supabase);
-
-
-        const form = document.getElementById('registerForm');
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('password');
-        const passwordRequirements = document.getElementById('passwordRequirements');
-        const continueBtn = document.getElementById("continueBtn");
-
-        // Show/hide password
-        togglePassword.addEventListener('click', () => {
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                togglePassword.classList.replace("bi-eye-slash", "bi-eye");
-            } else {
-                passwordInput.type = "password";
-                togglePassword.classList.replace("bi-eye", "bi-eye-slash");
-            }
-        });
-
-        // Password validation
-        passwordInput.addEventListener('input', () => {
-            const val = passwordInput.value;
-            const strong = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-            passwordRequirements.classList.toggle("d-none", strong.test(val));
-        });
-
-        // Handle form submit
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const country = document.getElementById('country').value.trim();
-            const password = passwordInput.value;
-            const terms = document.getElementById('termsCheck').checked;
-
-            if (!terms) {
-                alert("You must agree to the Terms & Conditions.");
-                return;
-            }
-
-
-
-            // ✅ Check if email already exists
-            const { data: existingUser } = await supabase
-                .from("users")
-                .select("id")
-                .eq("email", email)
-                .maybeSingle();
-
-            if (existingUser) {
-                alert("❌ This email is already registered. Please login instead.");
-                return;
-            }
-
-            // ✅ Insert new user into the 'users' table
-            const { data: newUser, error: insertError } = await supabase
-                .from("users")
-                .insert([{ name, email, country, password }]);
-
-            if (insertError) {
-                console.error("User save error:", insertError.message);
-                alert("❌ Error saving user: " + insertError.message);
-                return;
-            }
-
-
-
-
-            // Update success message
-            document.getElementById("successMessage").textContent =
-                `🎉 Registration Successful, Welcome  ${name}!`;
-
-            // Close registration modal
-            const registerModalEl = document.getElementById("registerModal");
-            if (registerModalEl) {
-                const registerModal = bootstrap.Modal.getInstance(registerModalEl)
-                    || new bootstrap.Modal(registerModalEl);
-                registerModal.hide();
-
-                // Remove any leftover backdrop
-                document.querySelectorAll(".modal-backdrop").forEach(backdrop => backdrop.remove());
-
-                // Remove modal-open class from body to restore scrolling
-                document.body.classList.remove("modal-open");
-            }
-
-            // Show success modal
-            const successModalEl = document.getElementById("successModal");
-            const successModal = bootstrap.Modal.getOrCreateInstance(successModalEl);
-            successModal.show();
-
-            // Countdown
-            // ✅ Start countdown
-            let countdown = 5;
-            const countdownPopup = document.getElementById("countdownPopup");
-            const popupCountdown = document.getElementById("popupCountdown");
-
-            // Show the countdown text
-            countdownPopup.classList.remove("d-none");
-            popupCountdown.textContent = countdown;
-
-            // Run interval
-            const interval = setInterval(() => {
-                countdown--;
-                popupCountdown.textContent = countdown;
-
-                if (countdown <= 0) {
-                    clearInterval(interval);
-                    successModal.hide();
-                    // Scroll to login section after modal hides
-    setTimeout(() => {
-      document.querySelector("#loginSectionId").scrollIntoView({ behavior: "smooth" });
-      document.body.classList.remove("modal-open"); // just in case
-    }, 300);
-                }
-            }, 1000);
-
-
-
-            // ✅ Continue button (optional manual skip)
-            document.getElementById("continueBtn").onclick = () => {
-                clearInterval(interval);
-                successModal.hide();
-                setTimeout(() => {
-    document.querySelector("#loginSectionId").scrollIntoView({ behavior: "smooth" });
-    document.body.classList.remove("modal-open");
-  }, 300);
-            };
-
-
-            form.reset();
-
-        });
-
-    </script>
+   
 
 
 
