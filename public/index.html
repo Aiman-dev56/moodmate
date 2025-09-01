@@ -22,7 +22,7 @@
     <!-- Logo and Brand -->
     <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="img/logo-removebg-preview.png" alt="Logo" height="40" class="me-2">
-      <span class="fw-bold fs-4">BootMate</span>
+      <span class="fw-bold fs-4">MootMate</span>
     </a>
 
     <!-- Toggler -->
@@ -292,150 +292,6 @@
 
 
 
-<script>
-const slideContainer = document.getElementById("testimonialSlides");
-const loggedInUser = localStorage.getItem("loggedInUser");
-console.log("logged in as:", loggedInUser);
-
-// Load and display all reviews in carousel
-function loadReviews() {
-  const reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-  const slideContainer = document.getElementById("testimonialSlides");
-  const indicatorsContainer = document.getElementById("carouselIndicators");
-
-  slideContainer.innerHTML = "";
-  indicatorsContainer.innerHTML = "";
-  const screenWidth = window.innerWidth;
-  const groupSize = screenWidth >= 786 ? 3 : 1;
-
-  for (let i = 0; i < reviews.length; i += groupSize) {
-    const group = reviews.slice(i, i + groupSize);
-    const slide = document.createElement("div");
-    slide.className = "carousel-item" + (i === 0 ? " active" : "");
-
-    const row = document.createElement("div");
-    row.className = "row";
-
-    group.forEach((review, indexInGroup) => {
-      const col = document.createElement("div");
-      col.className = "col-md-4 mb-3";
-
-      const card = document.createElement("div");
-      card.className = "card h-100 shadow-sm";
-
-      const overallIndex = i + indexInGroup;
-
-      card.innerHTML = `
-        <div class="card-body">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <div class="d-flex align-items-center">
-              <img src="https://i.pravatar.cc/40?u=${review.name}" class="rounded-circle me-2" width="40" height="40" alt="avatar">
-              <strong>${review.name}</strong>
-            </div>
-            ${review.name === loggedInUser
-              ? `<button class="btn btn-sm btn-danger delete-review" data-index="${overallIndex}">Delete</button>`
-              : ""}
-          </div>
-          <p class="card-text">${review.text}</p>
-          <div class="text-warning">
-            ${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}
-          </div>
-        </div>
-      `;
-
-      col.appendChild(card);
-      row.appendChild(col);
-    });
-
-    slide.appendChild(row);
-    slideContainer.appendChild(slide);
-
-    const indicator = document.createElement("button");
-    indicator.setAttribute("type", "button");
-    indicator.setAttribute("data-bs-target", "#testimonialCarousel");
-    indicator.setAttribute("data-bs-slide-to", i / groupSize);
-    indicator.className = i === 0 ? "active" : "";
-    indicatorsContainer.appendChild(indicator);
-  }
-
-  // 🔁 Bind delete buttons after DOM is updated
-  document.querySelectorAll(".delete-review").forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const index = parseInt(this.getAttribute("data-index"));
-      const reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-
-      if (confirm("Are you sure you want to delete your review?")) {
-        reviews.splice(index, 1); // Remove review
-        localStorage.setItem("reviews", JSON.stringify(reviews));
-        loadReviews(); // Reload updated carousel
-      }
-    });
-  });
-}
-
-window.addEventListener("resize", loadReviews);
-window.addEventListener("DOMContentLoaded", () => {
-  loadReviews();
-  checkLoginStatus();
-});
-
-// Show/hide Add Review button
-function checkLoginStatus() {
-  const username = localStorage.getItem("loggedInUser");
-  const addBtn = document.getElementById("addReviewBtn");
-  if (username) {
-    addBtn.style.display = "inline-block";
-  } else {
-    addBtn.style.display = "none";
-  }
-}
-
-// Add new review
-document.getElementById("reviewForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const reviewText = document.querySelector("#reviewForm textarea").value.trim();
-  const rating = parseInt(document.querySelector("#reviewForm input[type=number]").value);
-  const loggedInUser = localStorage.getItem("loggedInUser");
-
-  if (!loggedInUser) {
-    alert("Please log in to submit a review.");
-    return;
-  }
-
-  if (!reviewText || !rating || rating < 1 || rating > 5) {
-    alert("Please provide a valid review and rating (1-5).");
-    return;
-  }
-
-  const reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-
-  // Optional: only one review per user — remove old one
-  const existingIndex = reviews.findIndex((r) => r.name === loggedInUser);
-  if (existingIndex !== -1) {
-    reviews.splice(existingIndex, 1);
-  }
-
-  reviews.push({
-    name: loggedInUser,
-    text: reviewText,
-    rating: rating,
-  });
-
-  localStorage.setItem("reviews", JSON.stringify(reviews));
-  bootstrap.Modal.getInstance(document.getElementById("reviewModal")).hide();
-  document.getElementById("reviewForm").reset();
-  loadReviews();
-});
-
-window.addEventListener("resize", loadReviews);
-</script>
-
-
-
-
-
-
 
 
 
@@ -458,6 +314,31 @@ window.addEventListener("resize", loadReviews);
 
 
 
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+<script>
+// 🔹 Your Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyDxtk7rTwEBPT1W73scgPAMOsLrFXRaXVU",
+  authDomain: "mood-mate-7d071.firebaseapp.com",
+  projectId: "mood-mate-7d071",
+  storageBucket: "mood-mate-7d071.appspot.com",
+  messagingSenderId: "1043535041128",
+  appId: "1:1043535041128:web:19f578531ba6dce4fa21dd",
+  measurementId: "G-WSW5BQZGYR"
+};
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script src="./js/auth.js"></script>
+<script>
+  initializeAuth(); // ✅ call this on every protected page
+</script>
+
+
+
+
 
   <script src="js/auth.js"></script>
   <script>
@@ -475,39 +356,7 @@ window.addEventListener("resize", loadReviews);
 
 
 
-<script>
 
- <!-- fire base connection -->
-
-
-
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
- // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDxtk7rTwEBPT1W73scgPAMOsLrFXRaXVU",
-    authDomain: "mood-mate-7d071.firebaseapp.com",
-    projectId: "mood-mate-7d071",
-    storageBucket: "mood-mate-7d071.firebasestorage.app",
-    messagingSenderId: "1043535041128",
-    appId: "1:1043535041128:web:19f578531ba6dce4fa21dd",
-    measurementId: "G-WSW5BQZGYR"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-
-
-
-</script>
 
  
 </body>
