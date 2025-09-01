@@ -206,7 +206,8 @@ loginForm?.addEventListener("submit", async (e) => {
     console.log("login succes:", user);
 
     alert(`✅ Welcome back, ${user.email}`);
-    window.location.href = "../public/index.html";
+    console.log("redirecting to the index....");
+  window.location.href = "../index.html";
   } catch (error) {
     alert("❌ " + error.message);
   }
@@ -235,6 +236,7 @@ document.getElementById("googleLogin").addEventListener("click", async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     alert(`✅ Logged in as ${result.user.displayName}`);
+    window.location.href = "../index.html";
   } catch (error) {
     alert("❌ " + error.message);
     }
@@ -248,6 +250,7 @@ document.getElementById("appleLogin").addEventListener("click", async() =>{
   try {
     const result = await signInWithPopup(auth, provider);
      alert(`✅ Logged in as ${result.user.displayName}`);
+      window.location.href = "../index.html";
   } catch (error) {
      alert("❌ " + error.message);
   }
