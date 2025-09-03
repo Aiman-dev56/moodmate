@@ -207,7 +207,7 @@ loginForm?.addEventListener("submit", async (e) => {
 
     alert(`✅ Welcome back, ${user.email}`);
     console.log("redirecting to the index....");
-  window.location.href = "./index.html";
+window.location.href = "/public/index.html";
   } catch (error) {
     alert("❌ " + error.message);
   }

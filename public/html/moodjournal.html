@@ -291,44 +291,7 @@ duration: 1200
 </script>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const currentUserEmail = localStorage.getItem("currentUser");
-      const users = JSON.parse(localStorage.getItem("users") || "{}");
-  
-      // 🔐 Redirect to login section if not authenticated
-      if (!currentUserEmail || !users[currentUserEmail]) {
-        window.location.href = "../html/register.html#loginSectionId";
-        return;
-      }
-  
-      // 👤 Show user's name in navbar
-      const username = users[currentUserEmail].name;
-      const navbarUsername = document.getElementById("navbarUsername");
-      if (navbarUsername) {
-        navbarUsername.textContent = username;
-      }
-  
-      // 🚪 Logout functionality
-      const logoutBtn = document.getElementById("logoutBtn");
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", () => {
-          localStorage.removeItem("currentUser");
-          window.location.href = "../html/register.html#loginSectionId";
-        });
-      }
-    });
 
-
-    const currentUserEmail = localStorage.getItem("currentUser");
-const users = JSON.parse(localStorage.getItem("users") || "{}");
-
-if (currentUserEmail && users[currentUserEmail]) {
-  const username = users[currentUserEmail].name;
-  document.getElementById("patientName").textContent = username;
-}
-
-  </script>
 
 
 <script>
