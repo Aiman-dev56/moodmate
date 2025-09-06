@@ -23,7 +23,7 @@
     <!-- Logo and Brand -->
     <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="img/logo-removebg-preview.png" alt="Logo" height="40" class="me-2">
-      <span class="fw-bold fs-4">MootMate</span>
+      <span class="fw-bold fs-4">MoodMate</span>
     </a>
 
     <!-- Toggler -->
@@ -53,26 +53,41 @@
         </li>
       </ul>
 
-      <!-- Right aligned user button -->
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item dropdown">
-          <a class="btn btn-outline-primary dropdown-toggle px-3 py-1 d-flex align-items-center gap-2" href="#"
-            id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-            style="border-radius: 30px; font-weight: 600;">
-            <!-- User Icon -->
-            <span id="userIcon"
-              class="bg-white text-dark rounded-circle d-inline-flex justify-content-center align-items-center"
-              style="width: 28px; height: 28px; font-size: 14px; font-weight: bold;">
-              <i class="bi bi-person-circle"></i>
-            </span>
-            <!-- Username/Login Text -->
-            <span id="navbarUsername">Login</span>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="navbarUser">
-            <li><a class="dropdown-item" onclick="logoutUser()" href="#" id="logoutBtn">Logout</a></li>
-          </ul>
-        </li>
-      </ul>
+     <!-- Right aligned user button -->
+<ul class="navbar-nav ms-auto">
+
+  <!-- 🔹 Login Button (hidden when logged in) -->
+  <li class="nav-item" id="loginNavItem">
+    <a href="./html/register.html#loginSectionId" 
+       class="btn btn-outline-primary px-3 py-1"
+       style="border-radius: 30px; font-weight: 600;">
+      Login
+    </a>
+  </li>
+
+  <!-- 🔹 User Dropdown (hidden when logged out) -->
+  <li class="nav-item dropdown" id="userDropdown" style="display: none;">
+    <a class="btn btn-outline-primary dropdown-toggle px-3 py-1 d-flex align-items-center gap-2"
+       href="#" id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+       style="border-radius: 30px; font-weight: 600;">
+       
+      <!-- User Icon -->
+      <span id="userIcon"
+        class="bg-white text-dark rounded-circle d-inline-flex justify-content-center align-items-center"
+        style="width: 28px; height: 28px; font-size: 14px; font-weight: bold;">
+        <i class="bi bi-person-circle"></i>
+      </span>
+
+      <!-- Username -->
+      <span id="navbarUsername">User</span>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="navbarUser">
+      <li><a class="dropdown-item" href="#" onclick="logoutUser()" id="logoutBtn">Logout</a></li>
+    </ul>
+  </li>
+</ul>
+
     </div>
   </nav>
   <!-- ✅ Removed extra </nav> -->
@@ -94,7 +109,7 @@
       <div class="row align-items-center">
         <!-- Left Text -->
         <div class="col-md-6">
-          <h1 class="display-4 fw-bold" data-aos="zoom-in" data-aos-duration="2000">Welcome to MootMate</h1>
+          <h1 class="display-4 fw-bold" data-aos="zoom-in" data-aos-duration="2000">Welcome to MoodMate</h1>
           <p class="lead fs-4 fw-semibold">Your personal mental wellness companion.</p>
           <a href="#mentalHealth" class="btn btn-outline-light mt-3">Explore Now<span style="margin-left: 10px;"><i
                 class="bi bi-arrow-down-circle"></i></span></a>

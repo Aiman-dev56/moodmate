@@ -7,43 +7,44 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 // Elements
 const navbarUsername = document.getElementById("navbarUsername");
 const userIcon = document.getElementById("userIcon");
-const logoutBtn = document.getElementById("logoutBtn");
+const userDropdown = document.getElementById("userDropdown"); 
+const loginNavItem = document.getElementById("loginNavItem"); 
 
 // 🔹 Listen for Auth State
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // ✅ Logged in → show name or email prefix
+    // ✅ Logged in
     const displayName = user.displayName || user.email.split("@")[0];
 
     if (navbarUsername) navbarUsername.textContent = displayName;
 
     if (userIcon) {
-      userIcon.textContent = displayName.charAt(0).toUpperCase();
-      userIcon.classList.add("bg-primary", "text-white");
+      userIcon.innerHTML = `<i class="bi bi-person-circle"></i>`; // keep clean icon
     }
 
-    if (logoutBtn) logoutBtn.style.display = "block"; // show logout option
+    if (userDropdown) userDropdown.style.display = "block"; // show dropdown
+    if (loginNavItem) loginNavItem.style.display = "none"; // hide login btn
+
   } else {
-    // ❌ Logged out → reset UI
-    if (navbarUsername) navbarUsername.textContent = "Login";
+    // ❌ Logged out
+    if (navbarUsername) navbarUsername.textContent = "User";
 
     if (userIcon) {
       userIcon.innerHTML = `<i class="bi bi-person-circle"></i>`;
-      userIcon.classList.remove("bg-primary", "text-white");
     }
 
-    if (logoutBtn) logoutBtn.style.display = "none"; // hide logout option
+    if (userDropdown) userDropdown.style.display = "none"; // hide dropdown
+    if (loginNavItem) loginNavItem.style.display = "block"; // show login btn
 
-    // Redirect to login section
-    if (window.location.pathname.endsWith("index.html")) {
-      // if on home page → do nothing
-    } else {
+    // Redirect to login page if not on index
+    const path = window.location.pathname;
+    if (!(path.endsWith("index.html") || path.endsWith("/"))) {
       window.location.href = "./html/register.html#loginSectionId";
     }
   }
 });
 
-// 🔹 Logout Function (called by dropdown)
+// 🔹 Logout Function
 window.logoutUser = async function () {
   try {
     await signOut(auth);

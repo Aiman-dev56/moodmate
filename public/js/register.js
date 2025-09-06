@@ -8,6 +8,7 @@ signInWithEmailAndPassword,
 sendPasswordResetEmail,
 GoogleAuthProvider,
 signInWithPopup,
+updateProfile,
 OAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -115,6 +116,11 @@ form?.addEventListener("submit", async (e) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
+    //set displayname to the name entered during registration
+    await updateProfile(user, {
+      displayName: name
+    });
+
     // Save user profile in Firestore
     await setDoc(doc(db, "users", user.uid), {
       name: name,
@@ -198,14 +204,23 @@ loginForm?.addEventListener("submit", async (e) => {
 
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
+  const auth = getAuth();
 
   try{
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
+     // ✅ Ask for name if not set
+    if (!user.displayName) {
+      const name = prompt("Welcome! Please enter your name to complete your profile:");
+      if (name && name.trim() !== "") {
+        await updateProfile(user, { displayName: name.trim() });
+        alert("✅ Profile updated with your name!");
+      }
+    }
 
     console.log("login succes:", user);
 
-    alert(`✅ Welcome back, ${user.email}`);
+    alert(`✅ Welcome back, ${user.displayName || user.email.split("@")[0]}`);
     console.log("redirecting to the index....");
 window.location.href = "/public/index.html";
   } catch (error) {
