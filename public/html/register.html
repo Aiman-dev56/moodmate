@@ -40,41 +40,7 @@
             font-family: sans-serif;
         }
 
-        /* Sidebar styles */
-        #sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            top: 0;
-            right: 0;
-            background-color: #343a40;
-            overflow-x: hidden;
-            transition: 0.4s;
-            padding-top: 60px;
-            z-index: 1050;
-        }
-
-        #sidebar a {
-            padding: 10px 20px;
-            text-decoration: none;
-            color: white;
-            display: block;
-            transition: 0.3s;
-        }
-
-        #sidebar .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 30px;
-            color: white;
-            background: none;
-            border: none;
-        }
-
-        #sidebar a:hover {
-            background-color: #495057;
-        }
+     
 
         #login-form {
             display: flex;
@@ -269,11 +235,11 @@
                         <div class="d-flex justify-content-end">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <h5 class="modal-title fw-bold mb-3" id="registerModalLabel">Register</h5>
+                        <h5 class="modal-title fw-bold mb-3" id="registerModalLabel" style="color: #030b0f; font-family: 'Times New Roman', Times, serif; font-weight: bold; font-size: 2em;"  >Register</h5>
 
                         <form id="registerForm">
                             <!-- Name -->
-                            <label class="fw-semibold mb-2">Name:</label>
+                            <label class="fw-semibold mb-2" style="color: #030b0f;">Name:</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="bi bi-person"></i></span>
                                 <input type="text" class="form-control" id="name" placeholder="Enter Your Name"
@@ -281,7 +247,7 @@
                             </div>
 
                             <!-- Email -->
-                            <label class="fw-semibold mb-2">Email:</label>
+                            <label class="fw-semibold mb-2" style="color: #030b0f;">Email:</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                                 <input type="email" class="form-control" id="email" placeholder="Enter Your Email"
@@ -289,16 +255,23 @@
                             </div>
 
                             <!-- Country -->
-                            <label class="fw-semibold mb-2">Country:</label>
+                            <label class="fw-semibold mb-2" style="color: black;">Country:</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
                                 <input type="text" class="form-control" id="country" placeholder="Enter Your Country"
                                     required>
                             </div>
 
+                             <!-- Gender -->
+  <div class="mb-2">
+    <label class="form-label" style="color: #030b0f; font-weight: bold;">Gender</label><br>
+    <input type="radio" name="gender" value="male" required > <span style="color: #030b0f;">Male</span>
+    <input type="radio" name="gender" value="female" required > <span style="color: #030b0f;">Female</span>
+  </div>
+
                             <!-- Password -->
                             <div class="mb-3">
-                                <label class="fw-semibold mb-2">Password:</label>
+                                <label class="fw-semibold mb-2" style="color: #030b0f;">Password:</label>
                                 <div class="input-group mb-1">
                                     <span class="input-group-text"><i class="bi bi-lock"></i></span>
                                     <input type="password" class="form-control" id="password"

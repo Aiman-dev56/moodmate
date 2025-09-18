@@ -192,3 +192,21 @@
       border-radius: 12px 12px 12px 0;
       max-width: 80%;
     }
+
+  .footer-link {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-link:hover {
+    color: #fff;
+  }
+  .social-icon {
+    font-size: 1.3rem;
+    margin: 0 8px;
+    color: #bbb;
+    transition: color 0.3s;
+  }
+  .social-icon:hover {
+    color: #fff;
+  }

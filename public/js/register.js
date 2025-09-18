@@ -103,6 +103,7 @@ form?.addEventListener("submit", async (e) => {
   const name = document.getElementById("name").value.trim();
   const email = document.getElementById("email").value.trim();
   const country = document.getElementById("country").value.trim();
+  const gender = document.querySelector("input[name='gender']:checked").value;
   const password = passwordInput.value;
 
   // Validate password before Firebase call
@@ -126,6 +127,7 @@ form?.addEventListener("submit", async (e) => {
       name: name,
       email: email,
       country: country,
+      gender: gender,
       createdAt: new Date().toISOString()
     });
 

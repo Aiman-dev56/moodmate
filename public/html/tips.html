@@ -54,7 +54,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 mb-0">
     <!-- Logo and Brand -->
     <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="img/logo-removebg-preview.png" alt="Logo" height="40" class="me-2">
+      <img src="../img/logo-removebg-preview.png" alt="Logo" height="40" class="me-2">
       <span class="fw-bold fs-4">MoodMate</span>
     </a>
 
@@ -79,7 +79,7 @@
             More
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Therapy</a></li>
+            <li><a class="dropdown-item" href="./chat.html">Chat-AI</a></li>
             <li><a class="dropdown-item" href="./html/moodjournal.html">Journal</a></li>
           </ul>
         </li>
@@ -245,13 +245,55 @@
     </div>
 </section>
    
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
-        &copy; 2025 MindMate. Stay mentally healthy 💖
-    </footer>
+  <!-- 🌙 MoodMate Footer -->
+<footer class="footer bg-dark text-light pt-5 pb-3 mt-5">
+  <div class="container">
+    <div class="row gy-4">
+      
+      <!-- Logo & About -->
+      <div class="col-md-4 text-center text-md-start">
+        <h4 class="fw-bold">🌙 MoodMate</h4>
+        <p class="small">
+          Your companion for better mental health.  
+          Reflect, connect, and grow with MoodMate.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-md-4 text-center">
+        <h5 class="fw-bold mb-3">Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="./html/moodjournal.html" class="footer-link">Mood Journal</a></li>
+          <li><a href="./html/chat.html" class="footer-link">AI Chatbot</a></li>
+          <li><a href="./html/tips.html" class="footer-link">Wellness Tips</a></li>
+          <li><a href="#revi-sec" class="footer-link">Testimonials</a></li>
+        </ul>
+      </div>
+
+      <!-- Social Media -->
+      <div class="col-md-4 text-center text-md-end">
+        <h5 class="fw-bold mb-3">Connect With Us</h5>
+        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="bi bi-envelope-fill"></i></a>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <hr class="border-secondary my-4">
+    <div class="text-center small">
+      © <span id="year"></span> MoodMate. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <!-- AOS JS -->
     <script>
@@ -260,13 +302,8 @@
             duration: 1200
         });
     </script>
-    <script src="../js/auth.js"></script>
-    <script>
-        initializeAuth({
-            loginRedirect: "../html/register.html#loginSectionId",
-            showName: true
-        });
-    </script>
+    
+  
     <script type="module" src="../js/auth.js"></script>
 
 
@@ -371,6 +408,9 @@
         // Load initial quote
         window.addEventListener("DOMContentLoaded", () => loadQuote(currentCategory));
     </script>
+
+    
+
 </body>
 
 </html>
