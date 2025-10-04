@@ -207,7 +207,7 @@ onAuthStateChanged(auth, (user) => {
 // Load & Render Reviews
 // ==================
 function loadReviews() {
-  const q = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
+  const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
 
   onSnapshot(q, (snapshot) => {
     testimonialSlides.innerHTML = "";
@@ -265,7 +265,7 @@ reviewForm.addEventListener("submit", async (e) => {
     });
   } else {
     // add new
-    await addDoc(collection(db, "testimonials"), {
+    await addDoc(collection(db, "reviews"), {
       userId: currentUser.uid,
       userName: currentUser.displayName || currentUser.email,
       gender: "unknown", // optional: fetch from profile if saved
@@ -288,7 +288,7 @@ reviewForm.addEventListener("submit", async (e) => {
 // ==================
 window.deleteReview = async (id) => {
   if (confirm("Are you sure you want to delete this review?")) {
-    await deleteDoc(doc(db, "testimonials", id));
+    await deleteDoc(doc(db, "reviews", id));
   }
 };
 

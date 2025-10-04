@@ -67,7 +67,7 @@
 /* ✅ Medium devices (tablets, ≥768px) */
 @media (min-width: 768px) {
   .mood-sec {
-    height: 180vh; /* tablets */
+    height: 200vh; /* tablets */
   }
 
   #journalHistory {
@@ -75,14 +75,9 @@
   }
 }
 
-/* ✅ Large devices (desktops, ≥1200px) */
-@media (min-width: 1200px) {
-  .mood-sec {
-    height: 250vh; /* desktops */
-  }
-
-  #journalHistory {
-    max-height: 500px;
+@media (max-width: 768px){
+  .mood-sec{
+    height: 400vh;
   }
 }
 
@@ -115,16 +110,13 @@
   .history-box {
     max-height: 350px;    /* medium height */
   }
-}
-
-
-/* Desktops (≥1200px) */
-@media (min-width: 1200px) {
-  .history-box {
-    max-height: 500px;    /* taller on large screens */
+   .mood-sec {
+    height: 300vh; /* desktops */
   }
-  
 }
+
+
+
 
 
 </style>

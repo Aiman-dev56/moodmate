@@ -1,139 +1,135 @@
-import { 
-  getAuth, 
-  onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+// ==========================
+// chat.js (Fake Chatbot)
+// ==========================
 
-import { 
-  collection, 
-  doc, 
-  addDoc, 
-  getDoc,
-  updateDoc, 
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
-
-import { auth, db } from "./firebase.js";
-
-const chatList = document.getElementById("chatList");
+// DOM elements
 const chatMessages = document.getElementById("chatMessages");
 const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
+const chatList = document.getElementById("chatList");
 const newChatBtn = document.getElementById("newChatBtn");
 
-let currentUser = null;
-let currentChatId = null;
+let chats = JSON.parse(localStorage.getItem("moodmate_chats")) || [];
+let activeChatId = null;
 
-/* ✅ Render messages in chat window */
-function renderMessages(messages) {
+// ---------- UTILITIES ----------
+function saveChats() {
+  localStorage.setItem("moodmate_chats", JSON.stringify(chats));
+}
+
+function createMessageElement(text, sender) {
+  const div = document.createElement("div");
+  div.classList.add("message", sender);
+  div.textContent = text;
+  return div;
+}
+
+// ---------- CHATBOT LOGIC ----------
+function fakeBotReply(userMsg) {
+  const lower = userMsg.toLowerCase();
+
+  if (lower.includes("hello") || lower.includes("hi")) {
+    return "👋 Hello! How are you feeling today?";
+  }
+  if (lower.includes("sad")) {
+    return "I'm sorry to hear that 😔. Want me to suggest some uplifting activities?";
+  }
+  if (lower.includes("happy")) {
+    return "That's wonderful to hear! 🌟 Keep spreading positivity!";
+  }
+  if (lower.includes("depression")) {
+    return "Depression can be tough. It's important to talk to someone you trust. You're not alone ❤️.";
+  }
+
+  // default response
+  const responses = [
+    "Interesting... tell me more!",
+    "I understand 🤔",
+    "That’s a good point!",
+    "Can you explain a little further?",
+    "Hmm, I’m listening carefully 👂"
+  ];
+  return responses[Math.floor(Math.random() * responses.length)];
+}
+
+// ---------- MESSAGE FLOW ----------
+function addMessageToChat(chatId, text, sender) {
+  const chat = chats.find(c => c.id === chatId);
+  if (!chat) return;
+
+  chat.messages.push({ sender, text });
+  saveChats();
+
+  const msgEl = createMessageElement(text, sender);
+  chatMessages.appendChild(msgEl);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function handleSend() {
+  const text = userInput.value.trim();
+  if (!text || !activeChatId) return;
+
+  // Add user msg
+  addMessageToChat(activeChatId, text, "user");
+  userInput.value = "";
+
+  // Bot reply after delay
+  setTimeout(() => {
+    const reply = fakeBotReply(text);
+    addMessageToChat(activeChatId, reply, "bot");
+  }, 600);
+}
+
+// ---------- CHAT MANAGEMENT ----------
+function renderChatList() {
+  chatList.innerHTML = "";
+  chats.forEach(chat => {
+    const item = document.createElement("div");
+    item.classList.add("chat-item");
+    item.textContent = chat.title;
+    item.onclick = () => loadChat(chat.id);
+    chatList.appendChild(item);
+  });
+}
+
+function loadChat(chatId) {
+  activeChatId = chatId;
+  const chat = chats.find(c => c.id === chatId);
+
+  document.getElementById("chatHeader").textContent = chat.title;
   chatMessages.innerHTML = "";
-  (messages || []).forEach(msg => {
-    const msgDiv = document.createElement("div");
-    msgDiv.className = msg.sender === "user" ? "text-end mb-2" : "text-start mb-2";
-    msgDiv.innerHTML = `
-      <span class="d-inline-block px-3 py-2 rounded ${msg.sender === "user" ? "bg-primary text-white" : "bg-light"}">
-        ${msg.text}
-      </span>
-    `;
-    chatMessages.appendChild(msgDiv);
+
+  chat.messages.forEach(msg => {
+    const msgEl = createMessageElement(msg.text, msg.sender);
+    chatMessages.appendChild(msgEl);
   });
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-/* ✅ Render sidebar chat list */
-function renderChatList(chats) {
-  chatList.innerHTML = "";
-  chats.forEach(chat => {
-    const btn = document.createElement("button");
-    btn.className = "list-group-item list-group-item-action text-start";
-    btn.textContent = chat.title;
-    btn.onclick = () => {
-      currentChatId = chat.id;
-      renderMessages(chat.messages);
-    };
-    chatList.appendChild(btn);
-  });
-}
-
-/* ✅ Start a new chat */
-async function startNewChat() {
-  if (!currentUser) return;
-
-  const userChatsRef = collection(db, "users", currentUser.uid, "chats");
-
-  const newChat = {
-    title: `Chat ${new Date().toLocaleString()}`,
-    messages: [
-      {
-        sender: "bot",
-        text: `Hi ${currentUser.displayName || "Friend"}, how are you doing today?`,
-        time: Date.now()
-      }
-    ],
-    createdAt: Date.now()
+function newChat() {
+  const newId = Date.now();
+  const chat = {
+    id: newId,
+    title: "Chat " + (chats.length + 1),
+    messages: []
   };
-
-  const chatRef = await addDoc(userChatsRef, newChat);
-  currentChatId = chatRef.id;
+  chats.push(chat);
+  saveChats();
+  renderChatList();
+  loadChat(newId);
 }
 
-/* ✅ Add message (user or bot) */
-async function addMessage(sender, text) {
-  if (!currentChatId || !currentUser) return;
-
-  const chatRef = doc(db, "users", currentUser.uid, "chats", currentChatId);
-  const chatSnap = await getDoc(chatRef);
-
-  if (!chatSnap.exists()) return;
-
-  const chatData = chatSnap.data();
-  const messages = chatData.messages || [];
-
-  messages.push({ sender, text, time: Date.now() });
-
-  await updateDoc(chatRef, { messages });
-}
-
-/* ✅ Simple bot logic */
-function botReply(userText) {
-  let reply = "I'm here to support you 💙";
-  if (userText.toLowerCase().includes("sad")) reply = "I'm sorry you're feeling sad. Want to talk about it?";
-  if (userText.toLowerCase().includes("happy")) reply = "That's amazing! What made you happy today? 😊";
-  if (userText.toLowerCase().includes("anxious")) reply = "Try a deep breath exercise 🌿. Do you want me to guide you?";
-  addMessage("bot", reply);
-}
-
-/* ✅ Handle Send */
-sendBtn.addEventListener("click", async () => {
-  const text = userInput.value.trim();
-  if (!text) return;
-  await addMessage("user", text);
-  userInput.value = "";
-  setTimeout(() => botReply(text), 1000);
-});
-
-/* ✅ Enter = Send */
+// ---------- EVENT LISTENERS ----------
+sendBtn.addEventListener("click", handleSend);
 userInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendBtn.click();
+  if (e.key === "Enter") handleSend();
 });
+newChatBtn.addEventListener("click", newChat);
 
-newChatBtn.addEventListener("click", startNewChat);
-
-/* ✅ Listen for logged-in user and load chats */
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    currentUser = user;
-
-    const userChatsRef = collection(db, "users", user.uid, "chats");
-    onSnapshot(userChatsRef, (snapshot) => {
-      const chats = [];
-      snapshot.forEach(docSnap => {
-        chats.push({ id: docSnap.id, ...docSnap.data() });
-      });
-      renderChatList(chats);
-      if (currentChatId) {
-        const active = chats.find(c => c.id === currentChatId);
-        if (active) renderMessages(active.messages);
-      }
-    });
-  }
-});
+// ---------- INIT ----------
+renderChatList();
+if (chats.length > 0) {
+  loadChat(chats[0].id);
+} else {
+  newChat();
+}
